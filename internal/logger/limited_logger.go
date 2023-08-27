@@ -1,10 +1,8 @@
-package core
+package logger
 
 import (
 	"sync"
 	"time"
-
-	"github.com/bluenviron/mediamtx/internal/logger"
 )
 
 const (
@@ -12,18 +10,20 @@ const (
 )
 
 type limitedLogger struct {
-	w           logger.Writer
+	w           Writer
 	mutex       sync.Mutex
 	lastPrinted time.Time
 }
 
-func newLimitedLogger(w logger.Writer) *limitedLogger {
+// NewLimitedLogger is a wrapper around a Writer that limits printed messages.
+func NewLimitedLogger(w Writer) Writer {
 	return &limitedLogger{
 		w: w,
 	}
 }
 
-func (l *limitedLogger) Log(level logger.Level, format string, args ...interface{}) {
+// Log is the main logging function.
+func (l *limitedLogger) Log(level Level, format string, args ...interface{}) {
 	now := time.Now()
 	l.mutex.Lock()
 	if now.Sub(l.lastPrinted) >= minIntervalBetweenWarnings {

@@ -1,4 +1,5 @@
-package core
+// Package asyncwriter contains an asynchronous writer.
+package asyncwriter
 
 import (
 	"fmt"
@@ -8,7 +9,8 @@ import (
 	"github.com/bluenviron/mediamtx/internal/logger"
 )
 
-type asyncWriter struct {
+// Writer is an asynchronous writer.
+type Writer struct {
 	writeErrLogger logger.Writer
 	buffer         *ringbuffer.RingBuffer
 
@@ -16,37 +18,41 @@ type asyncWriter struct {
 	err chan error
 }
 
-func newAsyncWriter(
+// New allocates a Writer.
+func New(
 	queueSize int,
 	parent logger.Writer,
-) *asyncWriter {
+) *Writer {
 	buffer, _ := ringbuffer.New(uint64(queueSize))
 
-	return &asyncWriter{
-		writeErrLogger: newLimitedLogger(parent),
+	return &Writer{
+		writeErrLogger: logger.NewLimitedLogger(parent),
 		buffer:         buffer,
 		err:            make(chan error),
 	}
 }
 
-func (w *asyncWriter) start() {
+// Start starts the writer routine.
+func (w *Writer) Start() {
 	go w.run()
 }
 
-func (w *asyncWriter) stop() {
+// Stop stops the writer routine.
+func (w *Writer) Stop() {
 	w.buffer.Close()
 	<-w.err
 }
 
-func (w *asyncWriter) error() chan error {
+// Error returns whenever there's an error.
+func (w *Writer) Error() chan error {
 	return w.err
 }
 
-func (w *asyncWriter) run() {
+func (w *Writer) run() {
 	w.err <- w.runInner()
 }
 
-func (w *asyncWriter) runInner() error {
+func (w *Writer) runInner() error {
 	for {
 		cb, ok := w.buffer.Pull()
 		if !ok {
@@ -60,7 +66,8 @@ func (w *asyncWriter) runInner() error {
 	}
 }
 
-func (w *asyncWriter) push(cb func() error) {
+// Push appends an element to the queue.
+func (w *Writer) Push(cb func() error) {
 	ok := w.buffer.Push(cb)
 	if !ok {
 		w.writeErrLogger.Log(logger.Warn, "write queue is full")
