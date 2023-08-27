@@ -7,6 +7,10 @@ import (
 	"github.com/bluenviron/mediamtx/internal/logger"
 )
 
+const (
+	minIntervalBetweenWarnings = 1 * time.Second
+)
+
 type limitedLogger struct {
 	w           logger.Writer
 	mutex       sync.Mutex

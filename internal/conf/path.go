@@ -42,17 +42,17 @@ func IsValidPathName(name string) error {
 type PathConf struct {
 	Regexp *regexp.Regexp `json:"-"`
 
-	// source
+	// Source
 	Source string `json:"source"`
 
-	// general
+	// General
 	SourceFingerprint          string         `json:"sourceFingerprint"`
 	SourceOnDemand             bool           `json:"sourceOnDemand"`
 	SourceOnDemandStartTimeout StringDuration `json:"sourceOnDemandStartTimeout"`
 	SourceOnDemandCloseAfter   StringDuration `json:"sourceOnDemandCloseAfter"`
 	MaxReaders                 int            `json:"maxReaders"`
 
-	// authentication
+	// Authentication
 	PublishUser Credential `json:"publishUser"`
 	PublishPass Credential `json:"publishPass"`
 	PublishIPs  IPsOrCIDRs `json:"publishIPs"`
@@ -60,21 +60,21 @@ type PathConf struct {
 	ReadPass    Credential `json:"readPass"`
 	ReadIPs     IPsOrCIDRs `json:"readIPs"`
 
-	// publisher
+	// Publisher
 	OverridePublisher        bool   `json:"overridePublisher"`
 	DisablePublisherOverride bool   `json:"disablePublisherOverride"` // deprecated
 	Fallback                 string `json:"fallback"`
 
-	// rtsp
+	// RTSP
 	SourceProtocol      SourceProtocol `json:"sourceProtocol"`
 	SourceAnyPortEnable bool           `json:"sourceAnyPortEnable"`
 	RtspRangeType       RtspRangeType  `json:"rtspRangeType"`
 	RtspRangeStart      string         `json:"rtspRangeStart"`
 
-	// redirect
+	// Redirect
 	SourceRedirect string `json:"sourceRedirect"`
 
-	// raspberry pi camera
+	// Raspberry Pi Camera
 	RPICameraCamID             int     `json:"rpiCameraCamID"`
 	RPICameraWidth             int     `json:"rpiCameraWidth"`
 	RPICameraHeight            int     `json:"rpiCameraHeight"`
@@ -108,7 +108,7 @@ type PathConf struct {
 	RPICameraTextOverlayEnable bool    `json:"rpiCameraTextOverlayEnable"`
 	RPICameraTextOverlay       string  `json:"rpiCameraTextOverlay"`
 
-	// external commands
+	// External commands
 	RunOnInit               string         `json:"runOnInit"`
 	RunOnInitRestart        bool           `json:"runOnInitRestart"`
 	RunOnDemand             string         `json:"runOnDemand"`

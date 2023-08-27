@@ -89,7 +89,7 @@ func contains(list []headers.AuthMethod, item headers.AuthMethod) bool {
 
 // Conf is a configuration.
 type Conf struct {
-	// general
+	// General
 	LogLevel                  LogLevel        `json:"logLevel"`
 	LogDestinations           LogDestinations `json:"logDestinations"`
 	LogFile                   string          `json:"logFile"`
@@ -169,7 +169,7 @@ type Conf struct {
 	SRT        bool   `json:"srt"`
 	SRTAddress string `json:"srtAddress"`
 
-	// paths
+	// Paths
 	Paths map[string]*PathConf `json:"paths"`
 }
 

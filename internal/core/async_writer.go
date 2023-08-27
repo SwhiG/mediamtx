@@ -2,15 +2,10 @@ package core
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/bluenviron/gortsplib/v4/pkg/ringbuffer"
 
 	"github.com/bluenviron/mediamtx/internal/logger"
-)
-
-const (
-	minIntervalBetweenWarnings = 1 * time.Second
 )
 
 type asyncWriter struct {
